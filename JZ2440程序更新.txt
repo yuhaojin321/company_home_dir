@@ -1,0 +1,3 @@
+
+1.利用openjtag将uboot烧写进norflash，具体方法参考oflash的使用；
+2.利用norflash的uboot来更新nandflash的裸跑程序或者linux相关程序；
