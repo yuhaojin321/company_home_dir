@@ -1,0 +1,29 @@
+
+
+1. 仅用flash上的根文件系统启动后，手工MOUNT NFS
+1.1 公司命令
+mount -n -o nolock 192.168.130.200:/sf_git/filesystem/tmp_rootfs_1 /mnt/sdisk1/nfs
+
+1.2 100ask 命令
+mount -t nfs -o nolock,vers=2 10.0.0.147:/work/nfs /mnt
+
+2 使用NFS作为根文件系统来启动
+
+set bootargs noinitrd root=/dev/nfs nfsroot=192.168.1.4:/work/nfs/jz2440 ip=192.168.1.18:192.168.1.4:192.168.1.1:255.255.255.0::eth0:off init=/linuxrc console=ttySAC0
+
+电脑  ip地址:         192.168.1.4
+
+Ubuntu ip地址：       192.168.1.4
+
+uboot  ip地址：       192.168.1.18
+
+开发板linux ip 地址：192.168.1.17
+
+
+
+
+使用NFS启动的前提条件
+编译内核和制作文件系统所用的交叉编译器必须相同(如果你用2.6.22.6的内核去挂载毕业班、第三期视频的NFS文件系统，肯定无法挂载)
+
+100ask 讲nfs的文章
+https://mp.weixin.qq.com/s/l8XRaBa9MqmF3g0be6H-NQ
