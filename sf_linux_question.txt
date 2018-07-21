@@ -1,0 +1,35 @@
+
+1.echo /sbin/mdev > /proc/sys/kernel/hotplug
+
+2.mount -t jffs2 /dev/mtdblock0 /mnt/sdisk1 -o sync
+ 
+3.int gp_sysfs_create(const char *dev_name)
+{
+	int rs = RTN_ERR;
+	
+	_sf_gp_class = class_create(THIS_MODULE, dev_name);
+	if(IS_ERR(_sf_gp_class) != 0) {
+		printk(KERN_ALERT"Failed to create device class.\n");
+		return(RTN_ERR);
+	}
+	
+	dev_attr_gp_info.attr.name = dev_name;
+	rs = class_create_file(_sf_gp_class, &dev_attr_gp_info);
+	if(rs < 0) {
+		printk(KERN_ALERT"Failed to create attribute info device.\n");
+		return(RTN_ERR);
+	}
+	
+	return(RTN_OK);	
+}
+
+4.static struct class_attribute dev_attr_gp_info = {
+	.attr = {
+		.name = NULL,
+		.mode = S_IWUSR | S_IRUGO,
+	},
+	.show = gp_info_show,
+	.store = gp_info_store,
+};
+
+5.cat /sys/class/sf_gp_module/sf_gp_module 可以获取gp_info_show的内容的原因是？
